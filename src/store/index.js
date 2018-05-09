@@ -4,15 +4,24 @@ import createSagaMiddleware, {END} from 'redux-saga';
 import {persistReducer, persistStore} from 'redux-persist'
 import {AsyncStorage} from "react-native";
 import rootReducer from '../reducers/index';
+import {
+    createReactNavigationReduxMiddleware,
+} from 'react-navigation-redux-helpers';
 
-export default async (onComplete: ?()=>void) => {
+const navigationMiddleware = createReactNavigationReduxMiddleware(
+    "root",
+    state => state.nav,
+);
+
+export default async (onComplete: ?() => void) => {
     const sagaMiddleware = createSagaMiddleware();
-    const middlewares = [sagaMiddleware];
+    const middlewares = [sagaMiddleware, navigationMiddleware];
 
     let config = {
         key: 'root',
         storage: AsyncStorage,
     };
+
     const persistedReducer = persistReducer(config, rootReducer);
     const createAppStore = applyMiddleware(...middlewares)(createStore);
 

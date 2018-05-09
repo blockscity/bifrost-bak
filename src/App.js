@@ -1,9 +1,11 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {Provider} from 'react-redux'
+import {PersistGate} from 'redux-persist/integration/react'
+
 import configureStore from './store';
 import rootSaga from './sagas';
-import {PersistGate} from 'redux-persist/integration/react'
+import AppNavigation from './navigators'
 
 export default class App extends React.Component {
     constructor() {
@@ -43,11 +45,9 @@ export default class App extends React.Component {
         }
         return (
             <Provider store={this.state.store}>
-                <View style={styles.container}>
-                    <PersistGate persistor={this.state.persistor}>
-                        <Text>Changes you make will automatically reload.</Text>
-                    </PersistGate>
-                </View>
+                <PersistGate persistor={this.state.persistor}>
+                    <AppNavigation/>
+                </PersistGate>
             </Provider>
         )
 
