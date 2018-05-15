@@ -1,64 +1,40 @@
-import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {Provider} from 'react-redux'
-import {PersistGate} from 'redux-persist/integration/react'
+import {Platform} from 'react-native';
+import {Navigation} from 'react-native-navigation';
+import {registerScreens} from './navigators'
 
-import configureStore from './store';
-import rootSaga from './sagas';
-import AppNavigation from './navigators'
+const tabs = [{
+  label: 'Navigation',
+  screen: 'app.Home',
+  icon: require('../imgs/swap.png'),
+  title: 'Navigation Types',
+}, {
+  label: 'Actions',
+  screen: 'app.Home',
+  icon: require('../imgs/swap.png'),
+  title: 'Navigation Actions',
+}];
 
-export default class App extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            loaded: false,
-            store: {},
-            persistor: {},
-            err: undefined
-        };
-    }
 
-    componentDidMount() {
-        console.log("mount");
-        configureStore(() => {
-            console.log("loaded");
-            this.state.loaded = true;
-            this.setState({loaded: true})
+registerScreens();
+console.log(Navigation.startTabBasedApp)
 
-        }).then(({store, persistor}) => {
-            store.runSaga(rootSaga);
-            this.setState({store, persistor})
-        }).catch(err => {
-            this.setState({err: err})
-        })
-    }
-
-    render() {
-        if (this.state.loaded === false) {
-            return (
-                <View style={styles.container}>
-                    <Text>Open up App.js to start working on your app!</Text>
-                    <Text>Changes you make will automatically reload.</Text>
-                    <Text>Shake your phone to open the developer menu.</Text>
-                </View>
-            );
-        }
-        return (
-            <Provider store={this.state.store}>
-                <PersistGate persistor={this.state.persistor}>
-                    <AppNavigation/>
-                </PersistGate>
-            </Provider>
-        )
-
-    }
-}
-
-export const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
+Navigation.startTabBasedApp({
+  tabs,
+  tabsStyle: {
+    tabBarBackgroundColor: '#003a66',
+    tabBarButtonColor: '#ffffff',
+    tabBarSelectedButtonColor: '#ff505c',
+    tabFontFamily: 'BioRhyme-Bold',
+  },
+  appStyle: {
+    tabBarBackgroundColor: '#003a66',
+    navBarButtonColor: '#ffffff',
+    tabBarButtonColor: '#ffffff',
+    navBarTextColor: '#ffffff',
+    tabBarSelectedButtonColor: '#ff505c',
+    navigationBarColor: '#003a66',
+    navBarBackgroundColor: '#003a66',
+    statusBarColor: '#002b4c',
+    tabFontFamily: 'BioRhyme-Bold',
+  }
 });

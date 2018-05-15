@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "react-native-scripts": "1.14.0",
+    "eslint": "^4.19.1",
     "jest-expo": "~27.0.0",
+    "react-native-scripts": "1.14.0",
     "react-test-renderer": "16.3.1"
   },
   "main": "./src/index.js",
@@ -24,8 +25,7 @@
     "react": "16.3.1",
     "react-native": "~0.55.2",
     "react-native-elements": "^0.19.1",
-    "react-navigation": "^2.0.1",
-    "react-navigation-redux-helpers": "^1.0.6",
+    "react-native-navigation": "^2.0.2283",
     "react-redux": "^5.0.7",
     "redux": "^4.0.0",
     "redux-persist": "^5.9.1",
